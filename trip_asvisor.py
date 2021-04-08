@@ -60,7 +60,3 @@ def getUsernames(url):
 
 url = "https://www.tripadvisor.fr/Restaurant_Review-g8458929-d8680946-Reviews-La_Ferme_de_Lucien-Sallenoves_Haute_Savoie_Auvergne_Rhone_Alpes.html#REVIEWS"
 url2 = "https://www.tripadvisor.fr/Restaurant_Review-g8017085-d7852031-Reviews-Les_3_Bouchons-Chavannes_sur_Suran_Ain_Auvergne_Rhone_Alpes.html"
-
-print(getUsernames(url2))
-
-
