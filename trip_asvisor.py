@@ -15,15 +15,15 @@ def search(url):
 
 	soup = BeautifulSoup(content, features="html.parser")
 
-	usernames = []
+	infos = []
 
 	for review in soup.find_all("div","review-container",):
 		rew = str(review)
-		test = rew.split('<div class="info_text pointer_cursor" onclick="widgetEvCall(\'handlers.usernameClick\', event, this);">')
-		usernames.append(traitement(test[1]))
-		test2 = rew.split('<p class="partial_en')
+		usr = rew.split('<div class="info_text pointer_cursor" onclick="widgetEvCall(\'handlers.usernameClick\', event, this);">')
+		com = rew.split('<p class="partial_en')
+		infos.append([traitement(usr[1]),traitement(com[1])])
 
-	return usernames
+	return infos
 
 def getUrls(url, nbPages):
 	res = []
@@ -48,20 +48,19 @@ def getNbPages(url):
 
 	return int(res[1][-3:])//10+1
 	
-def getUsernames(urls):
+def getUsernames(url):
 	usernames = []
+	urls = getUrls(url, getNbPages(url))
 	for url in urls:
 		names = search(url)
 		for name in names:
-			usernames.append(name)
+			usernames.append([name[0], name[1]])
 	return usernames
 
 
 url = "https://www.tripadvisor.fr/Restaurant_Review-g8458929-d8680946-Reviews-La_Ferme_de_Lucien-Sallenoves_Haute_Savoie_Auvergne_Rhone_Alpes.html#REVIEWS"
+url2 = "https://www.tripadvisor.fr/Restaurant_Review-g8017085-d7852031-Reviews-Les_3_Bouchons-Chavannes_sur_Suran_Ain_Auvergne_Rhone_Alpes.html"
 
-usernames = getUsernames(getUrls(url, getNbPages(url)))
-print(usernames)
-print(len(usernames))
-
+print(getUsernames(url2))
 
 
