@@ -15,25 +15,27 @@ def search(url):
 
 	soup = BeautifulSoup(content, features="html.parser")
 
+	usernames = []
+
 	for review in soup.find_all("div","review-container",):
 		rew = str(review)
 		test = rew.split('<div class="info_text pointer_cursor" onclick="widgetEvCall(\'handlers.usernameClick\', event, this);">')
-		print(traitement(test[1]))
+		usernames.append(traitement(test[1]))
 		test2 = rew.split('<p class="partial_en')
-		print(traitement(test2[1]))
 
-def getUrl(url, nbPages):
+	return usernames
+
+def getUrls(url, nbPages):
 	res = []
 	for i in range(len(url)):
 		if url[i:i+8] == "Reviews-":
 			part1 = url[:i+8]
 			part2 = url[i+8:]
-			print(part1)
-			print(part2)
+			
 
 	for i in range(nbPages):
 		res.append(part1+"or"+str(i)+"0-"+part2)
-	print(res)
+	return res
 
 
 def getNbPages(url):
@@ -42,14 +44,24 @@ def getNbPages(url):
 
 	soup = BeautifulSoup(content, features="html.parser")
 
-	liens = soup.find_all("a")
+	res = str(soup).split("avis")
 
-	print(liens)
+	return int(res[1][-3:])//10+1
+	
+def getUsernames(urls):
+	usernames = []
+	for url in urls:
+		names = search(url)
+		for name in names:
+			usernames.append(name)
+	return usernames
 
 
 url = "https://www.tripadvisor.fr/Restaurant_Review-g8458929-d8680946-Reviews-La_Ferme_de_Lucien-Sallenoves_Haute_Savoie_Auvergne_Rhone_Alpes.html#REVIEWS"
 
+usernames = getUsernames(getUrls(url, getNbPages(url)))
+print(usernames)
+print(len(usernames))
 
-getNbPages(url)
 
 
